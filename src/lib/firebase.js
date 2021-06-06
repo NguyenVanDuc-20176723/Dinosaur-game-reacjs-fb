@@ -1,12 +1,21 @@
 import firebase from 'firebase';
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCXOZQopSVKZnazl02Kz_ai374OEQfGbwM",
+//   authDomain: "fir-sample-e7c33.firebaseapp.com",
+//   projectId: "fir-sample-e7c33",
+//   storageBucket: "fir-sample-e7c33.appspot.com",
+//   messagingSenderId: "1012402618605",
+//   appId: "1:1012402618605:web:e93df80e5dd89edd2c0ce4"
+// };
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCXOZQopSVKZnazl02Kz_ai374OEQfGbwM",
-  authDomain: "fir-sample-e7c33.firebaseapp.com",
-  projectId: "fir-sample-e7c33",
-  storageBucket: "fir-sample-e7c33.appspot.com",
-  messagingSenderId: "1012402618605",
-  appId: "1:1012402618605:web:e93df80e5dd89edd2c0ce4"
+  apiKey: "AIzaSyBRf-R3Z0yx6SpCubHQBl5xVs10uGGAatk",
+  authDomain: "dinosaur-game-199ef.firebaseapp.com",
+  projectId: "dinosaur-game-199ef",
+  storageBucket: "dinosaur-game-199ef.appspot.com",
+  messagingSenderId: "364375239011",
+  appId: "1:364375239011:web:7eb44d427b3aabeecb8b56"
 };
 
 firebase.initializeApp(firebaseConfig);
