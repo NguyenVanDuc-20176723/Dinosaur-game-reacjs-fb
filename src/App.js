@@ -13,6 +13,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState([]);
   
+  
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       setLoading(false);
@@ -22,6 +23,7 @@ function App() {
       }
       setUser(newUser);
     });
+    
   }, []);
   
   const logout = () => {
@@ -50,6 +52,7 @@ function App() {
     }
   }
   
+  
   return (
     <div className="container is-fluid">
       <header class="navbar">
@@ -62,7 +65,8 @@ function App() {
         )}
       </header >
       <div>
-        {user && <Game />}
+        {user && <Game  
+        />}
       </div>
     </div>
   );

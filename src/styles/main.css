@@ -3,3 +3,8 @@
 .container {
   margin-top: 2rem;
 }
+
+.dinosaur-game {
+    border-style: solid;
+    margin: auto;
+}
