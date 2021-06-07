@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 function Game({auth, store, user,setUser, setLoading}){
-    const [check, setCheck] = useState(true);
+    //const [check, setCheck] = useState(true);
     
     let canvas, ctx; 
 
