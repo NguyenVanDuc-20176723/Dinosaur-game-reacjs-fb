@@ -7,4 +7,7 @@
 .dinosaur-game {
     border-style: solid;
     margin: auto;
+    background-image: url('../images/background4.jpg');
+    background-size: cover;
 }
+

@@ -18,6 +18,37 @@ function Game({auth, store, user,setUser, setLoading}){
     let gameSpeed;
     let keys = {};
     let globalID;
+    let check = true;
+    let image_player ;
+    let image_obs;
+    let nam = false;
+    
+    
+    const createImagePlayer = () =>{
+        image_player = new Image ();
+        image_player.src = require('../images/player/dino-chien.png').default;
+        image_player.alt = 'dino';
+
+    }
+    
+    const setImagePlayer = () =>{
+        if (nam)
+            image_player.src = require('../images/player/dino-thu.png').default;
+        else
+            image_player.src = require('../images/player/dino-chien.png').default;
+    }
+    
+    const createImageObs = () =>{
+      image_obs = new Image();
+      image_obs.src = require('../images/obs/obs0.png').default;
+      image_obs.alt = 'dino';
+    }
+    const setImageObs = () => {
+        let random = RandomIntInRange(0,10)
+        image_obs.src = require('../images/obs/obs' + random +'.png').default;
+        image_obs.alt = 'obstacle '+ random;
+        return image_obs;
+    }
     // Event Listeners
     document.addEventListener('keydown', function (evt) {
       keys[evt.code] = true;
@@ -58,11 +89,13 @@ function Game({auth, store, user,setUser, setLoading}){
     }
     // method Draw of Player
     const DrawPlayer = (item) => {
-        
+      
         ctx.beginPath();
-        ctx.fillStyle = item.color;
+        ctx.fillStyle = 'transparent';//item.color;
         ctx.fillRect(item.pos_x, item.pos_y, item.width, item.height);
+        ctx.drawImage(image_player,item.pos_x,item.pos_y,item.width,item.height);
         ctx.closePath();
+        
          
     }
     // method Animate of Player
@@ -77,9 +110,14 @@ function Game({auth, store, user,setUser, setLoading}){
             
         if (keys['ShiftLeft'] || keys['KeyS'] || keys['ArrowDown']) {
             item.height = item.originalHeight / 2;
+            nam = true;
+            setImagePlayer();
         } else {
             item.height = item.originalHeight;
+            nam =false;
+            setImagePlayer();
         }
+        
         item.pos_y += item.dy;
                 
         //Gravity
@@ -95,14 +133,15 @@ function Game({auth, store, user,setUser, setLoading}){
            
     }
     // chuong ngai vat
-    const obstacle_init = (x,y,w,h,c) => {
+    const obstacle_init = (x,y,w,h,c,img) => {
         const obj = {
             pos_x : x,
             pos_y : y,
             width : w,
             height : h,
             color : c,
-            dx : -gameSpeed
+            dx : -gameSpeed,
+            image: img
         };
       
         return obj;
@@ -110,8 +149,9 @@ function Game({auth, store, user,setUser, setLoading}){
     const DrawObstacle = (item) => {
      
         ctx.beginPath();
-        ctx.fillStyle = item.color;
+        ctx.fillStyle = 'transparent';//item.color;
         ctx.fillRect(item.pos_x, item.pos_y, item.width, item.height);
+        ctx.drawImage(item.image,item.pos_x,item.pos_y,item.width,item.height)
         ctx.closePath();
     }
     // method update of Obstacle
@@ -150,7 +190,7 @@ function Game({auth, store, user,setUser, setLoading}){
     function SpawnObstacle () {
         let size = RandomIntInRange(20, 70);
         let type = RandomIntInRange(0, 1);
-        let obstacle = obstacle_init(canvas.width + size, canvas.height - size, size, size, '#2484E4');
+        let obstacle = obstacle_init(canvas.width + size, canvas.height - size, size, size, '#2484E4',setImageObs());
         
         if (type == 1) {
             obstacle.pos_y -= player.originalHeight - 10;
@@ -181,9 +221,9 @@ function Game({auth, store, user,setUser, setLoading}){
         if (window.localStorage.getItem('highscore')) {
             highscore = window.localStorage.getItem('highscore');
         }
-      
+        createImageObs();
         player = player_init(20, 0, 50, 50, '#FF5858');
-    
+        createImagePlayer();
         scoreText = text_init("Score: " + score, 25, 25, "left", "#212121", "20");
         highscoreText = text_init("Highscore: " + highscore, canvas.width - 25, 25, "right", "#212121", "20");
     
@@ -258,6 +298,7 @@ function Game({auth, store, user,setUser, setLoading}){
     <div>
     <div> Hello </div>
     <div> ok man </div>
+   
     <div>
         <canvas class="dinosaur-game" id="game" width="800" height="450" >
         </canvas>
