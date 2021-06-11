@@ -11,3 +11,60 @@
     background-size: cover;
 }
 
+.game-loss {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  
+  
+}
+
+.info-loss {
+  width: 500px;
+  height: 250px;
+  background-color: white;
+  border-style: solid;
+  
+  
+}
+.text-loss{
+  
+  margin: 30px;
+  color: rgb(0, 102, 0);
+  text-align: center;
+  font-size: 25px;
+  
+}
+.btn-dia-log {
+  
+  margin: 100px 120px;
+  
+}
+.btn-cancel{
+  
+  padding: 15px 30px;
+  text-align: center;
+  background-color: rgb(0, 51, 204);
+  color: white;
+  border: none;
+  font-size: 20px;
+  
+  
+}
+button:hover{
+  opacity: 0.8;
+}
+.btn-start {
+  padding: 15px 30px;
+  text-align: center;
+  background-color: rgb(0, 204, 0);
+  color: white;
+  border: none;
+  font-size: 20px;
+  margin-left: 20px;
+}
+

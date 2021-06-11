@@ -21,7 +21,7 @@ import {getKey} from "../lib/util";
 function Todo() {
   
   //const [items, putItems, clearItems] = useStorage();
-  const [items, addItem, updateItem, clearItems] = useFbStorage();
+  const [items, addItem, updateItem, clearItems] = useFbStorage('todos');
   function addItems(obj){
     //putItems([...items, obj]);
     addItem(obj);

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+
+import LossGameDiaLog from './LossGameDiaLog'
 
 function Game({auth, store, user,setUser, setLoading}){
     //const [check, setCheck] = useState(true);
     
-    let canvas, ctx; 
+    let canvas, ctx, loss_id; 
 
    
 
@@ -22,7 +24,8 @@ function Game({auth, store, user,setUser, setLoading}){
     let image_player ;
     let image_obs;
     let nam = false;
-    
+    let score_loss = 0;
+    let loss = false;
     
     const createImagePlayer = () =>{
         image_player = new Image ();
@@ -190,6 +193,7 @@ function Game({auth, store, user,setUser, setLoading}){
     function SpawnObstacle () {
         let size = RandomIntInRange(20, 70);
         let type = RandomIntInRange(0, 1);
+        createImageObs();
         let obstacle = obstacle_init(canvas.width + size, canvas.height - size, size, size, '#2484E4',setImageObs());
         
         if (type == 1) {
@@ -206,6 +210,7 @@ function Game({auth, store, user,setUser, setLoading}){
     function Start () {
     
         canvas  = document.getElementById('game');
+        loss_id =document.getElementById('loss');
         console.log(canvas);
         if(canvas.getContext)
             ctx = canvas.getContext('2d');
@@ -221,7 +226,7 @@ function Game({auth, store, user,setUser, setLoading}){
         if (window.localStorage.getItem('highscore')) {
             highscore = window.localStorage.getItem('highscore');
         }
-        createImageObs();
+        
         player = player_init(20, 0, 50, 50, '#FF5858');
         createImagePlayer();
         scoreText = text_init("Score: " + score, 25, 25, "left", "#212121", "20");
@@ -233,7 +238,8 @@ function Game({auth, store, user,setUser, setLoading}){
     let initialSpawnTimer = 200;
     let spawnTimer = initialSpawnTimer;
     function Update () {
-        globalID = requestAnimationFrame(Update);
+       // if (!loss)
+            globalID = requestAnimationFrame(Update);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     
         spawnTimer--;
@@ -261,12 +267,26 @@ function Game({auth, store, user,setUser, setLoading}){
                 player.pos_y < o.pos_y + o.height &&
                 player.pos_y + player.height > o.pos_y
             ) {
-                alert("Ban danh duoc " + score + " diem.");
+                score_loss = score;
+                Stop();
+                document.getElementById('text-loss').innerHTML = 'Ban danh duoc: ' + score_loss + '/' + highscore + ' diem.';
+                // set style id = loss
+                loss_id.style.width = canvas.width + 5 + 'px';
+                loss_id.style.height = canvas.height + 5 + 'px';
+                loss_id.style.margin = -(canvas.height + 10) + 'px 0px';
+                loss_id.style.display = 'flex';
+                //
+                //alert("Ban danh duoc " + score + " diem.");
                 obstacles = [];
                 score = 0;
                 spawnTimer = initialSpawnTimer;
                 gameSpeed = 3;
                 window.localStorage.setItem('highscore', highscore);
+                //Stop();
+                loss = true;
+                
+                
+                Stop();
             }
     
             UpdateObstacle(o);
@@ -275,6 +295,8 @@ function Game({auth, store, user,setUser, setLoading}){
         AnimatePlayer(player);
     
         score++;
+        if (loss)
+            score = score_loss;
         scoreText.text = "Score: " + score;
         DrawText(scoreText);
     
@@ -287,7 +309,30 @@ function Game({auth, store, user,setUser, setLoading}){
     
         gameSpeed += 0.003;
     }
+    const Stop = () => {
         
+        window.cancelAnimationFrame(globalID);
+         score = score_loss;
+        // console.log(score);
+        
+    }
+    
+    const setLoss = () =>{
+        loss = !loss;
+    }
+    const setDisplay = () => {
+        if (loss)
+            loss_id.style.display = 'flex';
+        else
+            loss_id.style.display = 'none';
+    }
+    
+    const getScore = () =>{
+        return score_loss;   
+    }
+    const getHighscore = () => {
+        return highscore;
+    }
     useEffect(() => {
         Start();
     },[]);
@@ -300,9 +345,17 @@ function Game({auth, store, user,setUser, setLoading}){
     <div> ok man </div>
    
     <div>
-        <canvas class="dinosaur-game" id="game" width="800" height="450" >
+        <canvas class="dinosaur-game" id="game" width="1200" height="450" >
         </canvas>
-        
+        <div class='game-loss' id = 'loss'>
+            
+            <LossGameDiaLog 
+            
+                setDisplay = {setDisplay}
+                start = {Start}
+                setLoss= {setLoss}
+            />
+        </div>
      
     </div>
     </div>

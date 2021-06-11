@@ -8,23 +8,23 @@ import Todo from './components/Todo';
 import Login from "./components/Login";
 import { auth, storeUserInfo, updateUser } from "./lib/firebase";
 import Upload from "./components/Upload";
-import Game from './components/Game';
+import HomePage from './components/HomePage';
 function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState([]);
   
   
-  useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      setLoading(false);
-      let newUser = null;
-      if (user) {
-        newUser = await storeUserInfo(user);
-      }
-      setUser(newUser);
-    });
+  // useEffect(() => {
+  //   auth.onAuthStateChanged(async (user) => {
+  //     setLoading(false);
+  //     let newUser = null;
+  //     if (user) {
+  //       newUser = await storeUserInfo(user);
+  //     }
+  //     setUser(newUser);
+  //   });
     
-  }, []);
+  // }, []);
   
   const logout = () => {
     auth.signOut();
@@ -65,7 +65,7 @@ function App() {
         )}
       </header >
       <div>
-        {user && <Game  
+        {user && <HomePage  
         />}
       </div>
     </div>

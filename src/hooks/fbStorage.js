@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { addFirebaseItem, updateFirebaseItem, getFirebaseItems, clearFirebaseItem } from "../lib/firebase";
 
-function useFbStorage() {
+function useFbStorage(coll) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -10,19 +10,19 @@ function useFbStorage() {
   }, [items]);
 
   const getItems = async () => {
-    const _items = await getFirebaseItems();
+    const _items = await getFirebaseItems(coll);
     setItems(_items);
   };
 
   const addItem = async item => {
     const newItem = { text: item.text, done: item.done };
-    await addFirebaseItem(newItem);
+    await addFirebaseItem(coll, newItem);
     setItems([...items, newItem]);
   };
 
   const updateItem = async checked => {
     const changes = { done: !checked.done };
-    await updateFirebaseItem(changes, checked.id);
+    await updateFirebaseItem(coll, changes, checked.id);
     const newItems = items.map((item) => {
       if (item.id === checked.id) {
         item = { ...item, changes}
@@ -34,7 +34,7 @@ function useFbStorage() {
 
   const clearItems = () => {
     items.map(item => {
-      clearFirebaseItem(item);
+      clearFirebaseItem(coll, item);
     })
     setItems([]);
   };

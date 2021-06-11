@@ -24,10 +24,10 @@ const db = firebase.firestore();
 export const auth = firebase.auth();
 export default firebase;
 
-export const getFirebaseItems = async () => {
+export const getFirebaseItems = async (coll) => {
   try {
     const snapshot = await db
-      .collection("todos")
+      .collection(coll)
       .get();
     const items = snapshot.docs.map(
       (doc) => ({ ...doc.data(), id: doc.id })
@@ -39,26 +39,26 @@ export const getFirebaseItems = async () => {
   }
 }
 
-export const addFirebaseItem = async (item) => {
+export const addFirebaseItem = async (coll, item) => {
   try {
-    const todoRef = db.collection("todos");
+    const todoRef = db.collection(coll);
     await todoRef.add(item);
   } catch (err) {
     console.log(err);
   }
 }
 
-export const updateFirebaseItem = async (item, id) => {
+export const updateFirebaseItem = async (coll, item, id) => {
   try {
-    const todoRef = db.collection("todos").doc(id);
+    const todoRef = db.collection(coll).doc(id);
     await todoRef.update(item);
   } catch (err) {
     console.log(err);
   }
 }
 
-export const clearFirebaseItem = async (item) => {
-  const todoRef = db.collection("todos").doc(item.id);
+export const clearFirebaseItem = async (coll, item) => {
+  const todoRef = db.collection(coll).doc(item.id);
   await todoRef.delete().then(function () {
   }).catch(function (err) {
     console.log(err);
