@@ -45,7 +45,7 @@ function Login() {
               <div className="modal-footer">
                 <div className="forgot login-footer">
                   <span>Looking to
-                    <a >create an account</a>
+                    <a >Register</a>
                     ?</span>
                 </div>
                 <div className="forgot register-footer" style={{ display: 'none' }}>
