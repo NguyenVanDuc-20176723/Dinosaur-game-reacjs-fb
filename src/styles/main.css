@@ -67,4 +67,35 @@ button:hover{
   font-size: 20px;
   margin-left: 20px;
 }
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  
+  margin: 20px 20px 20px 20px;
+}
 
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px 30px;
+  
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+#center {
+  text-align: center;
+}
+
+.history-table {
+  height: 300px;
+  width: 400px;
+  overflow: auto;
+
+}
+.title {
+  font-size: 30px;
+  margin: 20px 20px;
+  width: 300px;
+  text-align: center;
+}

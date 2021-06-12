@@ -15,13 +15,13 @@ function useFbStorage(coll) {
   };
 
   const addItem = async item => {
-    const newItem = { text: item.text, done: item.done };
+    const newItem = item;
     await addFirebaseItem(coll, newItem);
     setItems([...items, newItem]);
   };
 
-  const updateItem = async checked => {
-    const changes = { done: !checked.done };
+  const updateItem = async (checked, score) => {
+    const changes = { highscore: score };
     await updateFirebaseItem(coll, changes, checked.id);
     const newItems = items.map((item) => {
       if (item.id === checked.id) {

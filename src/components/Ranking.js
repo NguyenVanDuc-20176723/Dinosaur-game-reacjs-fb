@@ -1,32 +1,33 @@
 import useFbStorage from '../hooks/fbStorage';
 import firebase from 'firebase';
 import React, { useEffect, useState } from 'react';
-function PlayerHistory ({name, id, DisplayHistory, cvtDatetoString }){
-  
+function Ranking({name, id, DisplayRanking}) {
+    
+    
     return (
-    <div>
+        <div>
         
     
-        <div class = 'title'>Lich su choi</div>
-        <div class = 'history-table' >
+        <div class = 'title'>Ranking</div>
+        <div class = 'rank-table' >
             
             <table >
             <tr>
-    
-                <th id ='center'>Date</th>
-                <th>Score</th>
+        
+                <th id ='center'>Name</th>
+                <th>Highscore</th>
             </tr>
             {
                 
-                DisplayHistory.map(item => {
+                DisplayRanking.map(item => {
                
                     
                     return(
                     
                     <tr>
       
-                        <td>{cvtDatetoString(item.created_at)}</td>
-                        <td>{item.score}</td>
+                        <td>{item.name}</td>
+                        <td>{item.highscore}</td>
                     </tr>
                    
                     );
@@ -34,10 +35,10 @@ function PlayerHistory ({name, id, DisplayHistory, cvtDatetoString }){
             }
             </table>
             
-            {DisplayHistory.length} items 
+            {DisplayRanking.length} items 
         </div>
-    </div>
+    </div>    
     );
 }
 
-export default PlayerHistory;
+export default Ranking;

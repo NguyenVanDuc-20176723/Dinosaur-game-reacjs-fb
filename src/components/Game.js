@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
+import useFbStorage from '../hooks/fbStorage';
+import firebase from 'firebase';
 import LossGameDiaLog from './LossGameDiaLog'
 
-function Game({auth, store, user,setUser, setLoading}){
+function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
     //const [check, setCheck] = useState(true);
+  
     
     let canvas, ctx, loss_id; 
 
@@ -26,6 +28,7 @@ function Game({auth, store, user,setUser, setLoading}){
     let nam = false;
     let score_loss = 0;
     let loss = false;
+
     
     const createImagePlayer = () =>{
         image_player = new Image ();
@@ -206,27 +209,36 @@ function Game({auth, store, user,setUser, setLoading}){
     function RandomIntInRange (min, max) {
         return Math.round(Math.random() * (max - min) + min);
     }
-    
+    // const maxStt = () =>{
+    //     if( DisplayHistory.length == 0)
+    //         return 0;
+    //     else{
+    //         return Math.max(...DisplayHistory.map( item => item.stt));
+    //     }
+    // }
     function Start () {
     
         canvas  = document.getElementById('game');
-        loss_id =document.getElementById('loss');
+        loss_id = document.getElementById('loss');
         console.log(canvas);
         if(canvas.getContext)
             ctx = canvas.getContext('2d');
         
         console.log(ctx);
         ctx.font = "20px sans-serif";
-    
+        loss =false;
         gameSpeed = 3;
         gravity = 1;
-    
-        score = 0;
-        highscore = 0;
-        if (window.localStorage.getItem('highscore')) {
-            highscore = window.localStorage.getItem('highscore');
-        }
         
+        score = 0;
+          if(max() != Infinity)
+                highscore =max();
+        highscore =max();
+        // if (window.localStorage.getItem('highscore')) {
+        //     highscore = window.localStorage.getItem('highscore');
+        // }
+        //highscore = items.reduce((a,b)=>a.score>b.score?a:b).score;
+
         player = player_init(20, 0, 50, 50, '#FF5858');
         createImagePlayer();
         scoreText = text_init("Score: " + score, 25, 25, "left", "#212121", "20");
@@ -267,21 +279,35 @@ function Game({auth, store, user,setUser, setLoading}){
                 player.pos_y < o.pos_y + o.height &&
                 player.pos_y + player.height > o.pos_y
             ) {
+                
                 score_loss = score;
                 Stop();
+                
                 document.getElementById('text-loss').innerHTML = 'Ban danh duoc: ' + score_loss + '/' + highscore + ' diem.';
                 // set style id = loss
                 loss_id.style.width = canvas.width + 5 + 'px';
                 loss_id.style.height = canvas.height + 5 + 'px';
                 loss_id.style.margin = -(canvas.height + 10) + 'px 0px';
                 loss_id.style.display = 'flex';
-                //
+            
+    
+                // add firestore
+                addItem({
+                 
+                    user_id: id ? id : '',
+                    name: name ? name : '',
+                    score: score_loss,
+                    created_at: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                // if (score_loss > max()){
+                //     updateTop(score_loss);
+                // }
                 //alert("Ban danh duoc " + score + " diem.");
                 obstacles = [];
                 score = 0;
                 spawnTimer = initialSpawnTimer;
                 gameSpeed = 3;
-                window.localStorage.setItem('highscore', highscore);
+                window.localStorage.setItem('highscore', max());
                 //Stop();
                 loss = true;
                 
@@ -302,7 +328,7 @@ function Game({auth, store, user,setUser, setLoading}){
     
         if (score > highscore) {
             highscore = score;
-            highscoreText.text = "Highscore: " + highscore;
+            highscoreText.text = "Highscore: " +  highscore;
         }
       
         DrawText(highscoreText);
@@ -318,48 +344,47 @@ function Game({auth, store, user,setUser, setLoading}){
     }
     
     const setLoss = () =>{
-        loss = !loss;
+        loss = false;
     }
     const setDisplay = () => {
-        if (loss)
-            loss_id.style.display = 'flex';
-        else
-            loss_id.style.display = 'none';
+        loss_id = document.getElementById('loss');
+        
+        loss_id.style.display = 'none';
     }
     
-    const getScore = () =>{
-        return score_loss;   
+    const setMaxScore = () => {
+        highscore = Math.max(...DisplayHistory.map(o=>o.score));
+        return (<div>{highscore}</div>);
     }
-    const getHighscore = () => {
-        return highscore;
-    }
+    
     useEffect(() => {
+        
         Start();
+        
     },[]);
     
     
     return (
-    <div>   
-    <div>
-    <div> Hello </div>
-    <div> ok man </div>
-   
-    <div>
-        <canvas class="dinosaur-game" id="game" width="1200" height="450" >
-        </canvas>
-        <div class='game-loss' id = 'loss'>
-            
-            <LossGameDiaLog 
-            
-                setDisplay = {setDisplay}
-                start = {Start}
-                setLoss= {setLoss}
-            />
-        </div>
      
+    <div>
+        {setMaxScore()}
+   
+        <div>
+            <canvas class="dinosaur-game" id="game" width="1000" height="450" >
+            </canvas>
+            <div class='game-loss' id = 'loss'>
+                
+                <LossGameDiaLog 
+                
+                    setDisplay = {setDisplay}
+                    start = {Start}
+                    setLoss= {setLoss}
+                />
+            </div>
+            
+        </div>
     </div>
-    </div>
-    </div>
+    
     );
         
     

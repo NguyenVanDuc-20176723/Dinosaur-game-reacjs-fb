@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import './styles/main.css';
 
 /* コンポーネント */
-import Todo from './components/Todo';
+
 import Login from "./components/Login";
 import { auth, storeUserInfo, updateUser } from "./lib/firebase";
 import Upload from "./components/Upload";
@@ -66,6 +66,8 @@ function App() {
       </header >
       <div>
         {user && <HomePage  
+            name = {user.name}
+            id = {user.id}
         />}
       </div>
     </div>
