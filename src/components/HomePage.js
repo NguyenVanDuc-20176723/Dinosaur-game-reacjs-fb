@@ -34,18 +34,20 @@ function HomePage ({name, id}){
     });
 
     const maxScore = () => {
-        var maxC = Math.max(...DisplayHistory.map(o=>o.score));
-        return maxC;
+       return Math.max(...sortTimeHistory.map(o=>o.score));
+        
     }
     const updateTop = (highscore) =>{
        
         
         ranks.forEach( (e) => {
+            
            if(e.user_id === id) {
                if( highscore > e.highscore){
                    updateRank(e, highscore);
-                   setCheck(true);
+                   
                }
+               setCheck(true);
            }
         });
         if (!check){
@@ -62,7 +64,7 @@ function HomePage ({name, id}){
         <Game 
             name = {name}
             id = {id}
-            DisplayHistory = {DisplayHistory}
+            DisplayHistory = {sortTimeHistory}
             max = {maxScore}
             items = {items}
             addItem = {addItem}
@@ -71,7 +73,7 @@ function HomePage ({name, id}){
         <PlayerHistory 
             name = {name}
            id = {id}
-           DisplayHistory = {DisplayHistory}
+           DisplayHistory = {sortTimeHistory}
            cvtDatetoString = {cvtDatetoString}
         />
         <Ranking 

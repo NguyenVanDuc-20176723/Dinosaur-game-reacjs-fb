@@ -296,9 +296,9 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
                     user_id: id ? id : '',
                     name: name ? name : '',
                     score: score_loss,
-                    created_at: firebase.firestore.FieldValue.serverTimestamp()
+                    created_at: firebase.firestore.Timestamp.fromDate(new Date())
                 });
-                // if (score_loss > max()){
+                // if (score_loss > highscore){
                 //     updateTop(score_loss);
                 // }
                 //alert("Ban danh duoc " + score + " diem.");

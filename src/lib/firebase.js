@@ -1,12 +1,12 @@
 import firebase from 'firebase';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA9DKRes7wymwUgjU0GhxuL-ydZFGNSHXA",
-  authDomain: "game1-ade99.firebaseapp.com",
-  projectId: "game1-ade99",
-  storageBucket: "game1-ade99.appspot.com",
-  messagingSenderId: "1065846003609",
-  appId: "1:1065846003609:web:9e55a567d40e0210d26508"
+  apiKey: "AIzaSyC-6Ybz-oGjU4imYmF0Q_AFy32XQrx8gFs",
+  authDomain: "game2-aa9eb.firebaseapp.com",
+  projectId: "game2-aa9eb",
+  storageBucket: "game2-aa9eb.appspot.com",
+  messagingSenderId: "147837205999",
+  appId: "1:147837205999:web:9f120264122a60581a4a1a"
 };
 
 firebase.initializeApp(firebaseConfig);
