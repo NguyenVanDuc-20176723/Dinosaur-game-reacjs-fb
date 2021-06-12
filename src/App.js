@@ -14,17 +14,17 @@ function App() {
   const [user, setUser] = useState([]);
   
   
-  // useEffect(() => {
-  //   auth.onAuthStateChanged(async (user) => {
-  //     setLoading(false);
-  //     let newUser = null;
-  //     if (user) {
-  //       newUser = await storeUserInfo(user);
-  //     }
-  //     setUser(newUser);
-  //   });
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      setLoading(false);
+      let newUser = null;
+      if (user) {
+        newUser = await storeUserInfo(user);
+      }
+      setUser(newUser);
+    });
     
-  // }, []);
+  }, []);
   
   const logout = () => {
     auth.signOut();

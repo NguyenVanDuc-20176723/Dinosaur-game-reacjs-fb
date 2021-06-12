@@ -20,7 +20,7 @@ function Ranking({name, id, DisplayRanking}) {
             {
                 
                 DisplayRanking.map(item => {
-               
+                
                     
                     return(
                     

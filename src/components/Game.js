@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import useFbStorage from '../hooks/fbStorage';
 import firebase from 'firebase';
 import LossGameDiaLog from './LossGameDiaLog'
-
+import Dino_chien from '../images/player/dino-chien.png'
+import Dino_cui from '../images/player/dino-thu.png'
 function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
     //const [check, setCheck] = useState(true);
   
@@ -32,16 +33,16 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
     
     const createImagePlayer = () =>{
         image_player = new Image ();
-        image_player.src = require('../images/player/dino-chien.png').default;
+        image_player.src = Dino_chien;//require('../images/player/dino-chien.png').default;
         image_player.alt = 'dino';
 
     }
     
     const setImagePlayer = () =>{
         if (nam)
-            image_player.src = require('../images/player/dino-thu.png').default;
+            image_player.src = Dino_cui;//require('../images/player/dino-thu.png').default;
         else
-            image_player.src = require('../images/player/dino-chien.png').default;
+            image_player.src = Dino_chien;//require('../images/player/dino-chien.png').default;
     }
     
     const createImageObs = () =>{
@@ -107,14 +108,14 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
     // method Animate of Player
     const AnimatePlayer = (item) => {
         
-        if (keys['Space'] || keys['KeyW'] || keys['ArrowUp']){
+        if (/*keys['Space'] ||*/ keys['KeyW']/* || keys['ArrowUp']*/){
             JumpPlayer(item);
         } else {
             item.jumpTimer = 0;
         }
             
             
-        if (keys['ShiftLeft'] || keys['KeyS'] || keys['ArrowDown']) {
+        if (/*keys['ShiftLeft'] ||*/ keys['KeyS']/* || keys['ArrowDown']*/) {
             item.height = item.originalHeight / 2;
             nam = true;
             setImagePlayer();
@@ -232,9 +233,9 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
         
         score = 0;
          
-        highscore =max();
+        highscore = 0;
         if (window.localStorage.getItem('highscore')) {
-            highscore = window.localStorage.getItem('highscore');
+            highscore = Number(window.localStorage.getItem('highscore'));
         }
      
 
@@ -298,9 +299,11 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
                     score: score_loss,
                     created_at: firebase.firestore.Timestamp.fromDate(new Date())
                 });
-                // if (score_loss > highscore){
-                //     updateTop(score_loss);
-                // }
+                console.log(score_loss, highscore);
+                if (score_loss >= highscore){
+                     updateTop(score_loss);
+                    
+                }
                 //alert("Ban danh duoc " + score + " diem.");
                 obstacles = [];
                 score = 0;
@@ -352,8 +355,8 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
     }
     
     const setMaxScore = () => {
-        highscore = Math.max(...DisplayHistory.map(o=>o.score));
-        return (<div>{highscore}</div>);
+        
+        return Math.max(...[DisplayHistory.map(o => o.score)]);
     }
     
     useEffect(() => {
@@ -366,7 +369,7 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
     return (
      
     <div>
-        {setMaxScore()}
+        
    
         <div>
             <canvas class="dinosaur-game" id="game" width="1000" height="450" >
@@ -382,6 +385,7 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
             </div>
             
         </div>
+        
     </div>
     
     );

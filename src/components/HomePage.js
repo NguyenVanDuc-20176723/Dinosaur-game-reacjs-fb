@@ -10,7 +10,7 @@ function HomePage ({name, id}){
     const [ranks, addRank, updateRank, clearRank] = useFbStorage('ranking-list');
     const [check, setCheck] = useState();
     const cvtDatetoString = (timestamp) => {
-        console.log(timestamp);
+    
         if(timestamp){
             let date = timestamp.toDate();
             let year = date.getFullYear();
@@ -39,21 +39,23 @@ function HomePage ({name, id}){
     }
     const updateTop = (highscore) =>{
        
-        
-        ranks.forEach( (e) => {
-            
-           if(e.user_id === id) {
-               if( highscore > e.highscore){
-                   updateRank(e, highscore);
-                   
-               }
-               setCheck(true);
-           }
-        });
+        setCheck(false);
+        if(ranks.length > 0){
+            ranks.forEach( (e) => {
+                
+              if(e.user_id === id) {
+                  if( highscore > e.highscore){
+                      updateRank(e, highscore);
+                       
+                  }
+                  setCheck(true);
+              }
+            });
+        }
         if (!check){
             addRank({
                 highscore: highscore,
-                user_id: id ? id : '',
+                user_id: id ? id : '123',
                 name: name ? name : '',
                 top: 0
             });
@@ -69,6 +71,8 @@ function HomePage ({name, id}){
             items = {items}
             addItem = {addItem}
             updateTop = {updateTop}
+         
+           
         />
         <PlayerHistory 
             name = {name}
@@ -85,4 +89,5 @@ function HomePage ({name, id}){
     </div>
     );
 }
+
 export default HomePage;
