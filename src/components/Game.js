@@ -231,13 +231,12 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
         gravity = 1;
         
         score = 0;
-          if(max() != Infinity)
-                highscore =max();
+         
         highscore =max();
-        // if (window.localStorage.getItem('highscore')) {
-        //     highscore = window.localStorage.getItem('highscore');
-        // }
-        //highscore = items.reduce((a,b)=>a.score>b.score?a:b).score;
+        if (window.localStorage.getItem('highscore')) {
+            highscore = window.localStorage.getItem('highscore');
+        }
+     
 
         player = player_init(20, 0, 50, 50, '#FF5858');
         createImagePlayer();
@@ -307,7 +306,7 @@ function Game({name, id, DisplayHistory, max, items, addItem, updateTop}){
                 score = 0;
                 spawnTimer = initialSpawnTimer;
                 gameSpeed = 3;
-                window.localStorage.setItem('highscore', max());
+                window.localStorage.setItem('highscore', highscore);
                 //Stop();
                 loss = true;
                 

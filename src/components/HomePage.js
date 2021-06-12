@@ -10,6 +10,7 @@ function HomePage ({name, id}){
     const [ranks, addRank, updateRank, clearRank] = useFbStorage('ranking-list');
     const [check, setCheck] = useState();
     const cvtDatetoString = (timestamp) => {
+        console.log(timestamp);
         if(timestamp){
             let date = timestamp.toDate();
             let year = date.getFullYear();
